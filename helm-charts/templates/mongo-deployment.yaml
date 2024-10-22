@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.service.mongo.app }}-deployment
+  labels:
+    app: {{ .Values.service.mongo.app }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.service.mongo.app}}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.service.mongo.app}}
+    spec:
+      containers:
+        - name: {{ .Values.container.name }}
+          image: {{ .Values.container.image }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env:
+            {{- include "funIterate" .Values.container.env | indent 12 }}
+
+
+

@@ -1,0 +1,76 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: ""
+
+service:
+  mongo:
+    app: mongo
+    protocol: TCP
+    type: NodePort
+    port: 27017
+    name: mongo-service
+    targetPort: 27017
+  webapp:
+    app: webapp
+    protocol: TCP
+    type: NodePort
+    port: 8081
+    name: webapp-service
+    targetPort: 8081
+    nodePort: 30100
+
+container:
+  mongo:
+    name: mongo
+    image: mongo:latest
+    ports:
+    - containerPort: 27017
+    env:
+      - name: MONGO_INITDB_ROOT_USERNAME
+        secretName: mongo-secret
+        key: mongo-user
+        type: secret
+      - name: MONGO_INITDB_ROOT_PASSWORD
+        secretName: mongo-secret
+        key: mongo-password
+        type: secret
+  webapp:
+    name: mongo-express
+    image: mongo-express:latest
+    ports:
+    - containerPort: 8081
+    env:
+      - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+        secretName: mongo-secret
+        key: mongo-user
+        type: secret
+      - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+        secretName: mongo-secret
+        key: mongo-password
+        type: secret
+      - name: ME_CONFIG_BASICAUTH_USERNAME
+        secretName: mongo-secret
+        key: express-user
+        type: secret
+      - name: ME_CONFIG_BASICAUTH_PASSWORD
+        secretName: mongo-secret
+        key: express-password
+        type: secret
+      - name: ME_CONFIG_MONGODB_SERVER
+        secretName: mongo-config
+        key: mongo-url
+        type: config
+      
+
+
+
+
+
+    # - name: MONGO_INITDB_ROOT_USERNAME
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: mongo-secret
+    #       key: mongo-user

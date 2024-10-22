@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.service.webapp.app }}-deployment
+  labels:
+    app: {{ .Values.service.webapp.app }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.service.webapp.app}}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.service.webapp.app}}
+    spec:
+      containers:
+        - name: {{ .Values.container.name }}
+          image: {{ .Values.container.image }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.webapp.targetPort }}
+          env:
+            {{- include "funIterate" .Values.container.env | indent 12 }}
+
+
+
+            
