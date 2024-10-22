@@ -3,6 +3,7 @@ kind: "Service"
 metadata:
   name: {{ .Values.service.webapp.name }}
 spec:
+  type: NodePort
   selector:
     app: {{ .Values.service.webapp.app}}
   ports:
