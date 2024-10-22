@@ -15,13 +15,13 @@ spec:
         app: {{ .Values.service.mongo.app}}
     spec:
       containers:
-        - name: {{ .Values.container.name }}
-          image: {{ .Values.container.image }}
+        - name: {{ .Values.container.mongo.name }}
+          image: {{ .Values.container.mongo.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.targetPort }}
+            - containerPort: {{ .Values.service.mongo.targetPort }}
           env:
-            {{- include "funIterate" .Values.container.env | indent 12 }}
+            {{- include "funIterate" .Values.container.mongo.env | indent 12 }}
 
 
 

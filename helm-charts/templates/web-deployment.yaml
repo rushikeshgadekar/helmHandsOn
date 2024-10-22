@@ -15,13 +15,13 @@ spec:
         app: {{ .Values.service.webapp.app}}
     spec:
       containers:
-        - name: {{ .Values.container.name }}
-          image: {{ .Values.container.image }}
+        - name: {{ .Values.container.webapp.name }}
+          image: {{ .Values.container.webapp.image }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.webapp.targetPort }}
           env:
-            {{- include "funIterate" .Values.container.env | indent 12 }}
+            {{- include "funIterate" .Values.container.webapp.env | indent 12 }}
 
 
 

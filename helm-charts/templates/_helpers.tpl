@@ -69,9 +69,9 @@ Function to iterate data
 - name: {{ .name }}
   valueFrom:
     {{- if eq .type "secret" }} 
-    "secretKeyRef" 
+    secretKeyRef
     {{- else if eq .type "config" }} 
-    "configMapKeyRef" 
+    configMapKeyRef
     {{- end }}:
       name: {{ .secretName }}
       key: {{ .key }}
